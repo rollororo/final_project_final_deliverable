@@ -77,8 +77,12 @@
 </p>
 <p> fBm works by successively adding perlin noise functions with increasing frequency and decreasing amplitude. This way, later additions of noise functions will add finer details to our final fBm function. We generate our perlin noise function by generating a pseudo-random value for four corners around our input coordinate. Then, we use the ease curve to calculate the interpolation weights of each corner. Finally, we interpolate between the pseudo-random vectors to get a final value for our output. The perlin noise is spatially consistent because of the pseudo-random vectors and the interpolation. The random value we get for each corner is the same each time, so our noise function smoothly transitions from one point to the next.
 </p>
-<p> To add depth to our water, we attempted to implement normal mapping. Normal mapping is a technique that alters the normal of a surface by changing the normal of each fragment of the surface. To make this change, we needed a height map to represent the changes in depth of the water. We decided to use fBm as this would easily create this random motion for us. For an input texture coordinate, we found the fBm for a coordinate slightly to the left and subtracted the fBm of the original coordinate. We scaled this value and set the new normal’s x value to this number. We did this again for a coordinate slightly up and set the normal’s y value to this number. After doing so, we had a normal in texture space, which we needed to convert to model space. Since we knew the surface normal, it was easy to calculate the tangent and bitangent required to create the TBN matrix. Multiplying the TBN matrix and our normal in object space output a normal in model space. The remaining problem we had was applying this to the normals themselves in Minecraft. We couldn’t figure out how to utilize gl_FragData to actually apply the normal mapping to the normals. We also attempted to utilize screen space reflections by referencing this <a href="https://lettier.github.io/3d-game-shaders-for-beginners/screen-space-reflection.html#">website</a>, but had many difficulties with conversions between different spaces.
+<p> To add depth to our water, we attempted to implement normal mapping. Normal mapping is a technique that alters the normal of a surface by changing the normal of each fragment of the surface. To make this change, we needed a height map to represent the changes in depth of the water. We decided to use fBm as this would easily create this random motion for us. For an input texture coordinate, we found the fBm for a coordinate slightly to the left and subtracted the fBm of the original coordinate. We scaled this value and set the new normal’s x value to this number. We did this again for a coordinate slightly up and set the normal’s y value to this number. After doing so, we had a normal in texture space, which we needed to convert to model space. Since we knew the surface normal, it was easy to calculate the tangent and bitangent required to create the TBN matrix. Multiplying the TBN matrix and our normal in object space output a normal in model space. The remaining problem we had was applying this to the normals themselves in Minecraft. We couldn’t figure out how to utilize gl_FragData to actually apply the normal mapping to the normals and so we attempted to use Blinn-Phong for shading, but did not yield good results. We also attempted to utilize screen space reflections by referencing this <a href="https://lettier.github.io/3d-game-shaders-for-beginners/screen-space-reflection.html#">website</a>, but had many difficulties with conversions between different spaces.
 </p>
+<figure>
+  <img src="images/normal.png" class="image">
+  <figcaption align="middle">Water with attempted normal mapping and Blinn-Phong</figcaption>
+</figure>
 <p> From what we learned in this class, we thought this project would be a path tracing project. However, since Minecraft is a rasterized game, it does not support ray tracing and other techniques must be used to create similar effects. Some of these techniques are atmospheric scattering, fractional Brownian motion, normal mapping, etc. Just by working on only two parts of the Minecraft environment, we learned about many different mathematical models that could be used to create similar effects to ray tracing. We now have a lot more respect for Minecraft shader developers, as they obviously do a lot of research to make every part of Minecraft look realistic. It also took some time to learn about the OpenGL rendering pipeline and how it interacted with Minecraft and Optifine.
 
 </p>
@@ -134,6 +138,9 @@
         </p>
         <p>
         ShaderLabs Discord
+</p>
+<p>
+Project 4
 </p>
 
         </p>
